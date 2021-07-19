@@ -1,0 +1,16 @@
+<div class="job-ad">
+   <span *ngIf="data">
+    <h4>{{data.headline}}</h4>
+
+     {{data.body}}
+  </span>
+
+  <span *ngIf="viewData">
+    <h4>{{ viewData.nextViewName }}</h4>
+
+    {{ viewData.data }}
+
+    <p>Current view name : {{ viewData.viewName }} </p>
+  </span>
+
+</div>

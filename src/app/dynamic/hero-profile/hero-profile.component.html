@@ -1,0 +1,17 @@
+<div class="hero-profile">
+  <span *ngIf="data">
+    <h3>Featured Hero Profile</h3>
+    <h4>{{data.name}}</h4>
+
+       {{data.bio}}
+    <strong>Hire this hero today!</strong>
+  </span>
+
+  <span *ngIf="viewData">
+    <h4>{{ viewData.nextViewName }}</h4>
+
+    {{ viewData.data }}
+
+    <p>Current view name : {{ viewData.viewName }}</p>
+  </span>
+</div>
