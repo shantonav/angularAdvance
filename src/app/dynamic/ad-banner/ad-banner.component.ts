@@ -105,7 +105,6 @@ export class AdBannerComponent implements OnInit, OnDestroy {
 
     const componentRef = viewContainerRef.createComponent<AdComponent>( componentFactoryRef );
 
-    console.log( "Index of created componentRef "+ viewContainerRef.indexOf(  componentRef ) );
 
     if ( typeof  viewData !== 'undefined' && viewData != null ){
       componentRef.instance.viewData = viewData ;
@@ -145,8 +144,7 @@ export class AdBannerComponent implements OnInit, OnDestroy {
 
       componentRef.instance.viewData = this.viewData
 
-      console.log( "Index of componentRef "+ viewContainerRef.indexOf(  componentRef ) );
-
+      
       this.backDisabled = false;
     }else{
       this.backDisabled = true;
