@@ -24,11 +24,11 @@ export class HeroProfileComponent implements OnInit, AdComponent {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-   /* this.heroProfileForm.patchValue({
+    this.heroProfileForm.patchValue({
       currentViewName: this.viewData.viewName,
       data: this.viewData.data,
       nextViewName: this.viewData.nextViewName
-    })*/
+    })
   }
 
 }

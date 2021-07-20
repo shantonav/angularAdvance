@@ -22,11 +22,11 @@ export class HeroJobAdComponent implements OnInit, AdComponent {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-   /* this.heroJobForm.patchValue({
+    this.heroJobForm.patchValue({
       currentViewName: this.viewData.viewName,
       data: this.viewData.data,
       nextViewName: this.viewData.nextViewName
-    })*/
+    })
   }
 
 }
