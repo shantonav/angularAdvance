@@ -144,7 +144,7 @@ export class AdBannerComponent implements OnInit, OnDestroy {
 
       componentRef.instance.viewData = this.viewData
 
-      
+
       this.backDisabled = false;
     }else{
       this.backDisabled = true;
