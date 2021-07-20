@@ -26,6 +26,8 @@ export class AdBannerComponent implements OnInit, OnDestroy {
   @ViewChild( AdDirective, { static: true })  adHost!: AdDirective;
   interval: any;
   viewData: Partial<ViewData> = {};
+  backDisabled: boolean = true;
+
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private viewService: ViewDeterminationService) { }
 
@@ -71,18 +73,25 @@ export class AdBannerComponent implements OnInit, OnDestroy {
 
     this.viewService.getViewAndDataFromBE( viewRequest )
       .subscribe( viewData => {
-        this.viewData = viewData ;
-        this.showNextView();
+        this.showNextView( viewData  );
       })
   }
 
-  showNextView(){
+  showNextView(viewData?: ViewData){
+
+    if ( typeof  viewData !== 'undefined' && viewData != null ){
+      this.viewData = viewData ;
+    }
     let nextViewName = this.viewData.nextViewName;
     let componentName = '';
     if ( nextViewName == 'profile'){
       componentName = 'HeroProfileComponent';
     }else if ( nextViewName == 'job' ){
       componentName = 'HeroJobAdComponent';
+    }
+    let previousViewName = this.viewData.viewName;
+    if (  previousViewName != '' && previousViewName != 'start'){
+      this.backDisabled = false;
     }
 
     const addItem = this.ads.find( item => item.componentName == componentName );
@@ -96,6 +105,51 @@ export class AdBannerComponent implements OnInit, OnDestroy {
 
     const componentRef = viewContainerRef.createComponent<AdComponent>( componentFactoryRef );
 
-    componentRef.instance.viewData = this.viewData;
+    console.log( "Index of created componentRef "+ viewContainerRef.indexOf(  componentRef ) );
+
+    if ( typeof  viewData !== 'undefined' && viewData != null ){
+      componentRef.instance.viewData = viewData ;
+    }
+
+  }
+
+  showPreviousView(viewData?: ViewData){
+
+    if ( typeof  viewData !== 'undefined' && viewData != null ){
+      this.viewData = viewData ;
+    }
+    let previousViewName = this.viewData.viewName;
+    let componentName = '';
+    if ( previousViewName == 'profile'){
+      componentName = 'HeroProfileComponent';
+    }else if ( previousViewName == 'job' ){
+      componentName = 'HeroJobAdComponent';
+    }
+
+    if ( componentName != '') {
+      const addItem = this.ads.find(item => item.componentName == componentName);
+
+      // @ts-ignore
+      this.currentComponent = addItem ;
+
+      let componentFactoryRef: ComponentFactory<any>;
+      // @ts-ignore
+      componentFactoryRef = this.componentFactoryResolver.resolveComponentFactory(addItem.component);
+
+      const viewContainerRef = this.adHost.viewContainerRef;
+      viewContainerRef.clear();
+
+
+
+      const componentRef = viewContainerRef.createComponent<AdComponent>(componentFactoryRef);
+
+      componentRef.instance.viewData = this.viewData
+
+      console.log( "Index of componentRef "+ viewContainerRef.indexOf(  componentRef ) );
+
+      this.backDisabled = false;
+    }else{
+      this.backDisabled = true;
+    }
   }
 }
