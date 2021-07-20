@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AdComponent} from "../ad-component";
 import {ViewData} from "../ad-banner/view-data";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-hero-job-ad',
@@ -12,9 +13,20 @@ export class HeroJobAdComponent implements OnInit, AdComponent {
 
   @Input() viewData: Partial<ViewData> = {};
 
-  constructor() { }
+  heroJobForm = this.fb.group( {
+    currentViewName: [''],
+    data: [''],
+    nextViewName: ['']
+  })
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+   /* this.heroJobForm.patchValue({
+      currentViewName: this.viewData.viewName,
+      data: this.viewData.data,
+      nextViewName: this.viewData.nextViewName
+    })*/
   }
 
 }

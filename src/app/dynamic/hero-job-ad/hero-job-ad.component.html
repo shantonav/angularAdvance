@@ -11,6 +11,24 @@
     {{ viewData.data }}
 
     <p>Current view name : {{ viewData.viewName }} </p>
+
+    <form [formGroup]="heroJobForm">
+      <h2>Hero Job</h2>
+
+      <label for="viewName">CurrentViewName: </label>
+      <input id="viewName" type="text" formControlName="currentViewName">
+
+      <p>
+        <label for="data">Data: </label>
+        <input id="data" type="text" formControlName="data">
+      </p>
+
+      <p>
+        <label for="nextViewName">Next view name: </label>
+        <input id="nextViewName" type="text" formControlName="nextViewName">
+      </p>
+
+    </form>
   </span>
 
 </div>

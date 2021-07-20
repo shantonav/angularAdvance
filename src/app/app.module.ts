@@ -12,6 +12,7 @@ import { HeroProfileComponent } from './dynamic/hero-profile/hero-profile.compon
 import {AdService} from "./dynamic/ad.service";
 import { AdAppComponent } from './dynamic/ad-app/ad-app.component';
 import {ViewDeterminationService} from "./dynamic/ad-banner/view-determination.service";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {ViewDeterminationService} from "./dynamic/ad-banner/view-determination.s
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [ HelloServiceService, AdService, ViewDeterminationService ],
   bootstrap: [AppComponent]
