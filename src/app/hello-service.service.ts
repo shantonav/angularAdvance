@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse, HttpParams, HttpResponse} from "@angular/
 import { HelloResponse} from "./hello-response";
 import { Observable, throwError } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
+import { environment } from "../environments/environment";
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,10 @@ export class HelloServiceService {
 
     let inputParams  = new HttpParams();
     inputParams = inputParams.set('inputName', 'shantonav');
+    let endpoint = environment.apiUrl + 'hello/helloWorld';
     // ?inputName=shantonav
     return this.http.get<HelloResponse>(
-      "http://localhost:2200/hello/helloWorld", { observe: 'response', params: inputParams }
+      endpoint, { observe: 'response', params: inputParams }
       ).pipe( catchError( this.handleError  ));
 
   }

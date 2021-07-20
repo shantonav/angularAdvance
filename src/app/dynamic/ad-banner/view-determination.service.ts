@@ -4,6 +4,7 @@ import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {ViewRequest} from "./view-request";
 import {ViewData} from "./view-data";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class ViewDeterminationService {
   getViewAndDataFromBE(viewRequest: ViewRequest): Observable<ViewData> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-type', 'application/json');
-    return this.http.post<ViewData>( 'http://localhost:2200/hello/helloWorld', viewRequest, { headers: headers})
+    let endpoint = environment.apiUrl + 'hello/helloWorld';
+    return this.http.post<ViewData>( endpoint , viewRequest, { headers: headers})
       .pipe( catchError( this.handleError ));
   }
 
