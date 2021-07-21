@@ -13,10 +13,13 @@ export class ViewDeterminationService {
 
   constructor(private http: HttpClient) { }
 
-  getViewAndDataFromBE(viewRequest: ViewRequest): Observable<ViewData> {
+  getViewAndDataFromBE(viewRequest: ViewRequest, goBack: boolean = false): Observable<ViewData> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-type', 'application/json');
     let endpoint = environment.apiUrl + 'hello/helloWorld';
+    if ( goBack ){
+      endpoint = endpoint + "/goback";
+    }
     return this.http.post<ViewData>( endpoint , viewRequest, { headers: headers})
       .pipe( catchError( this.handleError ));
   }

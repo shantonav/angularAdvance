@@ -63,24 +63,32 @@ export class AdBannerComponent implements OnInit, OnDestroy {
     }, 3000);*/
   }
 
-  switchToNextView( ){
+  switchToNextView(goback: boolean = false ){
     let viewRequest : ViewRequest ;
     if ( this.viewData.viewName == null ){
       viewRequest = new ViewRequest('start', null);
     }else{
+      console.log (" Sending modified data "+ JSON.stringify( this.viewData ) +" of " + this.viewData.viewName + " to BE");
       viewRequest = new ViewRequest( this.viewData.nextViewName, this.viewData.data);
+      if ( goback ){
+        viewRequest = new ViewRequest( this.viewData.viewName, this.viewData.data);
+      }
     }
 
-    this.viewService.getViewAndDataFromBE( viewRequest )
+    this.viewService.getViewAndDataFromBE( viewRequest , goback)
       .subscribe( viewData => {
-        this.showNextView( viewData  );
+        if ( !goback) {
+          this.showNextView( viewData );
+        }else{
+          this.showPreviousView( viewData );
+        }
       })
   }
 
-  showNextView(viewData?: ViewData){
+  showNextView(data?: ViewData){
 
-    if ( typeof  viewData !== 'undefined' && viewData != null ){
-      this.viewData = viewData ;
+    if ( typeof  data !== 'undefined' && data != null ){
+      this.viewData = data ;
     }
     let nextViewName = this.viewData.nextViewName;
     let componentName = '';
@@ -106,16 +114,21 @@ export class AdBannerComponent implements OnInit, OnDestroy {
     const componentRef = viewContainerRef.createComponent<AdComponent>( componentFactoryRef );
 
 
-    if ( typeof  viewData !== 'undefined' && viewData != null ){
-      componentRef.instance.viewData = viewData ;
+    if ( typeof  data !== 'undefined' && data != null ){
+      componentRef.instance.viewData = data ;
     }
-
+    componentRef.instance.modifiedData.subscribe( (event: ViewData) => { this.listenToDynamicComponentEvent( event )})
   }
 
-  showPreviousView(viewData?: ViewData){
+  listenToDynamicComponentEvent (modifiedData: ViewData) {
+    console.log ("Received this " + modifiedData );
+    this.viewData = modifiedData ;
+  }
 
-    if ( typeof  viewData !== 'undefined' && viewData != null ){
-      this.viewData = viewData ;
+  showPreviousView(data?: ViewData){
+
+    if ( typeof  data !== 'undefined' && data != null ){
+      this.viewData = data ;
     }
     let previousViewName = this.viewData.viewName;
     let componentName = '';
@@ -142,7 +155,10 @@ export class AdBannerComponent implements OnInit, OnDestroy {
 
       const componentRef = viewContainerRef.createComponent<AdComponent>(componentFactoryRef);
 
-      componentRef.instance.viewData = this.viewData
+      if ( typeof  data !== 'undefined' && data != null ){
+        componentRef.instance.viewData = data ;
+      }
+      componentRef.instance.modifiedData.subscribe( (event: ViewData) => { this.listenToDynamicComponentEvent( event )})
 
 
       this.backDisabled = false;

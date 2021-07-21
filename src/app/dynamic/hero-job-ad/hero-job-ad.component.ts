@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AdComponent} from "../ad-component";
 import {ViewData} from "../ad-banner/view-data";
 import {FormBuilder, Validators} from "@angular/forms";
@@ -13,6 +13,8 @@ export class HeroJobAdComponent implements OnInit, AdComponent {
 
   @Input() viewData: Partial<ViewData> = {};
 
+  @Output() modifiedData = new EventEmitter<ViewData>();
+
   heroJobForm = this.fb.group( {
     currentViewName: [''],
     data: [''],
@@ -26,7 +28,13 @@ export class HeroJobAdComponent implements OnInit, AdComponent {
       currentViewName: this.viewData.viewName,
       data: this.viewData.data,
       nextViewName: this.viewData.nextViewName
-    })
+    });
+
+    this.heroJobForm.valueChanges.subscribe( selectedValue => {
+      console.log( 'form value changed ' + selectedValue);
+      this.modifiedData.emit( new ViewData( this.viewData.viewName!, this.viewData.data, this.viewData.nextViewName! ) );
+    });
   }
+
 
 }
