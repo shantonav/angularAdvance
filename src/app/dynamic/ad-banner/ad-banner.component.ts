@@ -70,18 +70,11 @@ export class AdBannerComponent implements OnInit, OnDestroy {
     }else{
       console.log (" Sending modified data "+ JSON.stringify( this.viewData ) +" of " + this.viewData.viewName + " to BE");
       viewRequest = new ViewRequest( this.viewData.nextViewName, this.viewData.data);
-      if ( goback ){
-        viewRequest = new ViewRequest( this.viewData.viewName, this.viewData.data);
-      }
     }
 
     this.viewService.getViewAndDataFromBE( viewRequest , goback)
       .subscribe( viewData => {
-        if ( !goback) {
-          this.showNextView( viewData );
-        }else{
-          this.showPreviousView( viewData );
-        }
+        this.showNextView( viewData );
       })
   }
 
